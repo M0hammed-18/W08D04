@@ -4,6 +4,6 @@ const post = new mongoose.Schema({
   time: { type: Date,default:Date.now },
   img: { type: String},
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-  like: { type: String,  ref: "User" },
+  like: { type: String,  ref: "Like" },
 });
 module.exports = mongoose.model("Post", post);
