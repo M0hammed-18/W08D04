@@ -6,7 +6,6 @@ const user =new mongoose.Schema({
     password:{type:String,required:true},
     role:{type: mongoose.Schema.Types.ObjectId, ref: "Role"},
     avter:{type:String},
-    delet:{type:Boolean}
 })
 
 module.exports=mongoose.model("User",user);
