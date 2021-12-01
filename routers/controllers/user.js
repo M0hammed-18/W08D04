@@ -7,15 +7,16 @@ const SALT = Number(process.env.SALT);
 
 //regester code 
 const regester = async (req, res) => {
-  const { email, password, role } = req.body;
+  const { email,username, password,avter, role,delet } = req.body;
   const saveEmail = email.toLowerCase();
   console.log(saveEmail);
   const savePassword = await bcrypt.hash(password, SALT);
 console.log(savePassword);
   const newUser = new userModel({
+    username,
     email: saveEmail,
     password: savePassword,
-    role,
+    role
   });
   newUser
     .save()
