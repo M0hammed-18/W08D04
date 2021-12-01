@@ -62,6 +62,20 @@ const desUpdetpost = (req, res) => {
     });
 };
 
+const delPost = (req, res) => {
+    const { id } = req.params;
+    console.log(id);
+    postModel
+    .findByIdAndUpdate(id,{ isDelete: true }).exec()
+    .then((result) => {
+        console.log(result);
+        res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+};
 
 
-  module.exports= {createPost,showPosts,updatpostimg,desUpdetpost};
+
+  module.exports= {createPost,showPosts,updatpostimg,desUpdetpost,delPost};
