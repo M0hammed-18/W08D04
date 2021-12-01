@@ -13,6 +13,9 @@ app.use(roleRouter)
 const userRouter=require("./routers/routes/user")
 app.use(userRouter)
 
+const postRouter=require("./routers/routes/post")
+app.use(postRouter)
+
 
 const PORT = process.env.PORT;
 app.listen(PORT, () => {

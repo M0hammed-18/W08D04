@@ -17,6 +17,19 @@ const createPost = (req, res) => {
         res.status(400).json(err);
       });
   };
+  const showPosts = (req, res) => {
+    postModel
+    .find({isDelete : false})
+    .then((result) => {
+
+         res.status(200).json(result);
+      
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+};
 
 
-  module.exports= createPost;
+
+  module.exports= {createPost,showPosts};
