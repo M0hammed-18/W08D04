@@ -5,7 +5,8 @@ const postRouter = express.Router();
 
 postRouter.post("/createpost",createPost)
 postRouter.get("/show",showPosts)
-postRouter.put("/imgupdat",updatpostimg)
+postRouter.put("/imgupdat/:id",updatpostimg)
+
 
 
 module.exports = postRouter;
