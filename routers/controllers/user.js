@@ -59,5 +59,32 @@ const login = (req, res) => {
     });
 };
 
+const getuser = (req, res) => {
+  userModel
+  .find({})
+  .then((result) => {
+    res.status(200).json(result);
+  })
+  .catch((err) => {
+    res.status(400).json(err);
+  });
+};
 
-module.exports = { regester, login };
+
+const deletedUser = (req, res) => {
+  const { id } = req.params;
+  
+  console.log(id);
+  userModel
+  .findByIdAndUpdate(id,{ isDelete: true }).exec()
+  .then((result) => {
+      console.log(result);
+      res.status(200).json(result);
+  })
+  .catch((err) => {
+    res.status(400).json(err);
+  });
+};
+
+
+module.exports = { regester, login,getuser,deletedUser };
