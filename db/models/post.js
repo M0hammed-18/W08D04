@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 const post = new mongoose.Schema({
   description: { type: String, required: true },
-  time: { type: Number },
+  time: { type: Date,default:Date.now },
   img: { type: String},
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+  userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   like: { type: String,  ref: "User" },
 });
 module.exports = mongoose.model("Post", post);
