@@ -5,18 +5,16 @@ const jwt = require("jsonwebtoken");
 
 const SALT = Number(process.env.SALT);
 
-//regester code 
+//regester code
 const regester = async (req, res) => {
-  const { email,username, password,avter, role,delet } = req.body;
+  const { email, username, password, avter, role, delet } = req.body;
   const saveEmail = email.toLowerCase();
-  console.log(saveEmail);
   const savePassword = await bcrypt.hash(password, SALT);
-console.log(savePassword);
   const newUser = new userModel({
     username,
     email: saveEmail,
     password: savePassword,
-    role
+    role,
   });
   newUser
     .save()
@@ -27,7 +25,7 @@ console.log(savePassword);
       res.json(err);
     });
 };
-//login code 
+//login code
 const login = (req, res) => {
   const { email, password } = req.body;
   const SECRT_KEY = process.env.SECRT_KEY;
@@ -40,6 +38,7 @@ const login = (req, res) => {
           const savePassword = await bcrypt.compare(password, result.password);
           const payload = {
             role: result.role,
+            Id: result._id,
           };
           if (savePassword) {
             const token = jwt.sign(payload, SECRT_KEY);
@@ -61,30 +60,28 @@ const login = (req, res) => {
 
 const getuser = (req, res) => {
   userModel
-  .find({})
-  .then((result) => {
-    res.status(200).json(result);
-  })
-  .catch((err) => {
-    res.status(400).json(err);
-  });
+    .find({})
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
 };
-
 
 const deletedUser = (req, res) => {
   const { id } = req.params;
-  
-  console.log(id);
+
   userModel
-  .findByIdAndUpdate(id,{ isDelete: true }).exec()
-  .then((result) => {
+    .findByIdAndUpdate(id, { isDelete: true })
+    .exec()
+    .then((result) => {
       console.log(result);
       res.status(200).json(result);
-  })
-  .catch((err) => {
-    res.status(400).json(err);
-  });
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
 };
 
-
-module.exports = { regester, login,getuser,deletedUser };
+module.exports = { regester, login, getuser, deletedUser };

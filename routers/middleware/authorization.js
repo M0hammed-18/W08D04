@@ -3,11 +3,10 @@ const roleModel = require("./../../db/models/role");
 
 const authorization = async (req, res, next) => {
   try {
-    console.log(req);
     const roleId = req.token.role;
-    console.log(roleId);
+
     const result = await roleModel.findById(roleId);
-    console.log(result);
+
     if (result.role === "Admin") {
       next();
     } else {

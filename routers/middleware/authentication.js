@@ -14,6 +14,7 @@ const authentication = (req, res, next) => {
     const parssedToken = jwt.verify(token, SECRT_KEY);
     // console.log(parssedToken);
     req.token = parssedToken;
+    console.log(req.token);
     next();
   } catch (error) {
     res.status(403).json(error);

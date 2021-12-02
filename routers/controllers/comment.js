@@ -1,13 +1,12 @@
 const commentsModel = require("./../../db/models/comment");
-const postModel =require("./../../db/models/post")
 
 const creatComment = (req, res) => {
-  const { desc, postID,userId } = req.body;
-
-  const newComment = new commentModel({
+  const { desc, postId } = req.body;
+  console.log(req.token);
+  const newComment = new commentsModel({
     desc,
-    post: postID,
-    userId,
+    postId,
+    userId: req.token.Id,
   });
 
   newComment
@@ -21,36 +20,50 @@ const creatComment = (req, res) => {
 };
 
 const editComment = (req, res) => {
-    const { id } = req.params;
-    const { desc,postID } = req.body;
-  
-    commentModel
-      .findByIdAndUpdate(id, { $set: { desc } }, { new: true })
-      .exec() 
-      .then((result) => {
-        console.log(result);
-        res.status(200).json(result);
-      })
-      .catch((err) => {
-        res.status(400).json(err);
-      });
-  };
+  const { id } = req.params;
+  const { desc, postID } = req.body;
 
-  const removeComment = (req, res) => {
-    const { id } = req.params;
-  
-    commentModel
-      .findByIdAndUpdate(id, { isDelete: true }, { new: true })
-      .exec()
-      .then((result) => {
-        res.status(200).json(result);
-      })
-      .catch((err) => {
-        res.status(400).json(err);
-      });
-  };
-  module.exports={
-    creatComment,
-    editComment,
-    removeComment
-  }
+  commentsModel
+    .findByIdAndUpdate(id, { $set: { desc: desc } })
+    .exec()
+    .then((result) => {
+      console.log(result);
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+};
+
+const removeComment = (req, res) => {
+  const { id } = req.params;
+
+  commentsModel
+    .findByIdAndUpdate(id, { isDelete: true }, { new: true })
+    .exec()
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.status(400).json(err);
+    });
+};
+
+const getComment = (req, res) => {
+  commentsModel
+    .find({})
+    .populate("postId", "desc img -_id")
+
+    .then((result) => {
+      res.status(200).json(result);
+    })
+    .catch((err) => {
+      res.status(400).json("you Don't have authorization");
+    });
+};
+module.exports = {
+  creatComment,
+  editComment,
+  removeComment,
+  getComment,
+};
