@@ -71,4 +71,6 @@ mongoose.connect(DB_URI,options).then(()=>{
 
 ![ER Diagram](https://github.com/M0hammed-18/W08D04/blob/main/digram/ER.png)
 
+![UML Diagram ](https://github.com/M0hammed-18/W08D04/blob/main/digram/UML%20(1).png)
+
 
