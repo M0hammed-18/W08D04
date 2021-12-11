@@ -5,13 +5,17 @@ const {
   login,
   deletedUser,
   getuser,
+  verifyacount
 } = require("./../controllers/user");
+const authentication = require("./../middleware/authentication");
+const authorization = require("./../middleware/authorization");
 const userRouter = express.Router();
 
-userRouter.post("/regester", regester);
-userRouter.post("/login", login);
+userRouter.post("/singup", regester);
+userRouter.post("/loginn", login);
+userRouter.post("/check",verifyacount)
 
-userRouter.delete("/user/:id", deletedUser);
-userRouter.get("/users", getuser);
+userRouter.delete("/user/:id",authentication,authorization, deletedUser);
+userRouter.get("/users",authentication,authorization, getuser);
 
 module.exports = userRouter;

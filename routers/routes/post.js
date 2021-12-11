@@ -11,7 +11,7 @@ const authentication = require("./../middleware/authentication");
 const postRouter = express.Router();
 
 postRouter.post("/createpost", authentication, createPost);
-postRouter.get("/showPost", authentication, showPosts);
+postRouter.get("/showPost", showPosts);
 postRouter.put("/imgupdat/:id", updatpostimg);
 postRouter.put("/desupdate/:id", desUpdetpost);
 postRouter.delete("/deletepost", delPost);

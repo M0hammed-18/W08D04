@@ -1,4 +1,5 @@
 const commentsModel = require("./../../db/models/comment");
+const postModel = require("./../../db/models/post");
 
 const creatComment = (req, res) => {
   const { desc, postId } = req.body;
@@ -12,8 +13,12 @@ const creatComment = (req, res) => {
   newComment
     .save()
     .then((result) => {
-      res.status(201).json(result);
-    })
+      postModel
+        .findByIdAndUpdate(postId, { $push: { commentId: result._id } })
+        .then((result) => {
+          res.status(201).json(result);
+        })
+      })
     .catch((err) => {
       res.status(400).json(err);
     });
@@ -51,7 +56,7 @@ const removeComment = (req, res) => {
 
 const getComment = (req, res) => {
   commentsModel
-    .find({})
+    .find({userId: req.token.id,isDelete:false})
     .populate("postId", "desc img -_id")
 
     .then((result) => {

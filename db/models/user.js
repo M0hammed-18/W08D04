@@ -7,9 +7,14 @@ const user = new mongoose.Schema({
   role: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Role",
-    default: "61a7750f589f5a40c9c7848f",
   },
   avter: { type: String },
+  passcode: { type: String },
+  active: {
+    type: Boolean,
+    default: false,
+  },
+  activecode: { type: String },
 });
 
 module.exports = mongoose.model("User", user);

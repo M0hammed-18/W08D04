@@ -2,31 +2,51 @@
 const userModel = require("./../../db/models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-
+const dotenv = require("dotenv");
 const SALT = Number(process.env.SALT);
+dotenv.config();
 
 //regester code
 const regester = async (req, res) => {
-  const { email, username, password, avter, role, delet } = req.body;
+  console.log(req);
+  const { email, username, password } = req.body;
   const saveEmail = email.toLowerCase();
   const savePassword = await bcrypt.hash(password, SALT);
+  console.log(saveEmail);
+  console.log(savePassword);
+
   const newUser = new userModel({
     username,
     email: saveEmail,
     password: savePassword,
-    role,
+
   });
   newUser
     .save()
     .then((result) => {
-      res.json(result);
+      res.status(201).json(result);
     })
     .catch((err) => {
-      res.json(err);
+      res.status(400).json(err);
     });
 };
+
+const verifyacount=async (req,res)=>{
+  const {id,code}=req.body;
+  const user = await userModel.findOne({_id:id});
+  if(user.activecode==code){
+    userModel.findByIdAndUpdate(id,{active:true,activecode:""},{new:true}).then ((result)=>{
+      res.status(201).json(result);
+    }).catch((err)=>{
+      res.status(400).json(err);
+    })
+  } else{
+    res.status(400).json("code is not valid");
+  }
+}
 //login code
 const login = (req, res) => {
+  console.log(req);
   const { email, password } = req.body;
   const SECRT_KEY = process.env.SECRT_KEY;
 
@@ -84,4 +104,4 @@ const deletedUser = (req, res) => {
     });
 };
 
-module.exports = { regester, login, getuser, deletedUser };
+module.exports = { regester, login, getuser, deletedUser,verifyacount };

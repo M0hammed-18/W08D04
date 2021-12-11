@@ -20,7 +20,7 @@ const createPost = (req, res) => {
 const showPosts = (req, res) => {
   postModel
     .find({})
-    .populate("like")
+    .populate("like commentId")
     .then((result) => {
       res.status(200).json(result);
     })
