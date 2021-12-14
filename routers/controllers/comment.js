@@ -3,6 +3,7 @@ const postModel = require("./../../db/models/post");
 
 const creatComment = (req, res) => {
   const { desc, postId } = req.body;
+  // const { userId, postId } = req.params;
   console.log(req.token);
   const newComment = new commentsModel({
     desc,
@@ -17,8 +18,8 @@ const creatComment = (req, res) => {
         .findByIdAndUpdate(postId, { $push: { commentId: result._id } })
         .then((result) => {
           res.status(201).json(result);
-        })
-      })
+        });
+    })
     .catch((err) => {
       res.status(400).json(err);
     });
@@ -56,8 +57,8 @@ const removeComment = (req, res) => {
 
 const getComment = (req, res) => {
   commentsModel
-    .find({userId: req.token.id,isDelete:false})
-    .populate("postId", "desc img -_id")
+    .find({  })
+    .populate("postId", "desc",)
 
     .then((result) => {
       res.status(200).json(result);

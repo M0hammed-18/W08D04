@@ -6,15 +6,17 @@ const user = new mongoose.Schema({
   password: { type: String, required: true },
   role: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Role",
+    ref: "Role",default:"61a7750f589f5a40c9c7848f"
   },
   avter: { type: String },
-  passcode: { type: String },
-  active: {
-    type: Boolean,
-    default: false,
+  state: {
+    type: String,
+    enum: ["Pending", "Active"],
+    default: "Pending",
   },
-  activecode: { type: String },
+
+  activeCode: { type: String },
+  passwordCode: { type: String },
 });
 
 module.exports = mongoose.model("User", user);

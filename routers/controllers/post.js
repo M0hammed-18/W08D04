@@ -1,6 +1,8 @@
 const postModel = require("./../../db/models/post");
+const commentsModel =require("./../../db/models/comment")
 
 const createPost = (req, res) => {
+  // console.log(req);
   const { img, userId, desc, isDelete, commentId } = req.body;
   const newPost = new postModel({
     img,
@@ -19,14 +21,28 @@ const createPost = (req, res) => {
 
 const showPosts = (req, res) => {
   postModel
-    .find({})
-    .populate("like commentId")
+    .find({isDel:false})
+    .populate("like commentId desc")
     .then((result) => {
       res.status(200).json(result);
     })
     .catch((err) => {
       res.status(400).json(err);
     });
+};
+const getPost = (req, res) => {
+  const { id } = req.params;
+  try {
+    postModel.findOne({ _id: id }).then((result) => {
+      if (result.isDel == false) {
+        res.status(200).json(result);
+      } else {
+        res.status(404).send("Post deleted");
+      }
+    });
+  } catch (error) {
+    res.status(400).json(error,"ll");
+  }
 };
 
 const updatpostimg = (req, res) => {
@@ -65,7 +81,7 @@ const delPost = (req, res) => {
   const { id } = req.params;
 
   postModel
-    .findByIdAndUpdate(id, { isDelete: true })
+    .findByIdAndRemove(id)
     .exec()
     .then((result) => {
       console.log(result);
@@ -76,4 +92,4 @@ const delPost = (req, res) => {
     });
 };
 
-module.exports = { createPost, showPosts, updatpostimg, desUpdetpost, delPost };
+module.exports = { createPost, showPosts, updatpostimg, desUpdetpost, delPost,getPost };

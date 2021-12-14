@@ -6,6 +6,6 @@ const post = new mongoose.Schema({
   commentId: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
   like: [{ type: mongoose.Schema.Types.ObjectId, ref: "Like" }],
-  isDel:{type:Boolean, default:false}
+  isDel: { type: Boolean, default: false },
 });
 module.exports = mongoose.model("Post", post);
